@@ -1,0 +1,1 @@
+Agregar color.png (192x192) y outline.png (32x32) antes de empaquetar para sideload.

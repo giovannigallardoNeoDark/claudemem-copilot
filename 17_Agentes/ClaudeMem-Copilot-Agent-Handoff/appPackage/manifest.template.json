@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.27/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.27",
+  "version": "1.0.0",
+  "id": "{{APP_ID}}",
+  "packageName": "cl.syntec.claudemem.copilot",
+  "developer": {
+    "name": "Syntec Ingenieria",
+    "websiteUrl": "https://example.invalid",
+    "privacyUrl": "https://example.invalid/privacy",
+    "termsOfUseUrl": "https://example.invalid/terms"
+  },
+  "name": {
+    "short": "ClaudeMem Copilot",
+    "full": "ClaudeMem Copilot - Memoria tecnica gobernada"
+  },
+  "description": {
+    "short": "Consulta memoria tecnica aprobada de ClaudeMem.",
+    "full": "Agente de solo lectura para consultar decisiones, lecciones, hallazgos, historial y estado de ClaudeMem mediante MCP autenticado."
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#24364B",
+  "permissions": [
+    "identity"
+  ],
+  "validDomains": [
+    "{{MCP_HOST}}"
+  ],
+  "copilotAgents": {
+    "declarativeAgents": [
+      {
+        "id": "claudememAgent",
+        "file": "declarativeAgent.json"
+      }
+    ]
+  },
+  "agentConnectors": [
+    {
+      "id": "claudemem-mcp",
+      "displayName": "ClaudeMem MCP",
+      "description": "Memoria tecnica gobernada de solo lectura.",
+      "toolSource": {
+        "remoteMcpServer": {
+          "mcpServerUrl": "{{MCP_URL}}",
+          "authorization": {
+            "type": "ApiKeyPluginVault",
+            "referenceId": "{{API_KEY_REGISTRATION_ID}}"
+          }
+        }
+      }
+    }
+  ]
+}
