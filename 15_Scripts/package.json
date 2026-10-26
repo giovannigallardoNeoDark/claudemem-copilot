@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "headroom-ai": "^0.41.0"
+  },
+  "name": "15_scripts",
+  "version": "1.0.0",
+  "description": "Documentacion del modulo.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

@@ -1,0 +1,104 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ClaudeMem: ciclo automatico",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\15_Scripts\\Ejecutar-Ciclo-Automatico-ClaudeMem.ps1",
+        "-NombreIteracion",
+        "VSCODE-CICLO",
+        "-GenerarManifiesto"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "ClaudeMem: ciclo con reparacion",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\15_Scripts\\Ejecutar-Ciclo-Automatico-ClaudeMem.ps1",
+        "-NombreIteracion",
+        "VSCODE-REPARACION",
+        "-GenerarManifiesto",
+        "-RepararObservaciones"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "ClaudeMem: abrir panel",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\15_Scripts\\ClaudeMem-Copilot-Panel.ps1"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "never",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "ClaudeMem: obtener estado",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\15_Scripts\\Obtener-Estado-ClaudeMem-Potenciado.ps1"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "ClaudeMem: abrir ultimo informe",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "$d=Join-Path '${workspaceFolder}' '11_Herramientas\\ClaudeMem\\diagnosticos'; $f=Get-ChildItem -LiteralPath $d -File -Filter 'ciclo-automatico-*.md' | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($null -eq $f){throw 'No existe informe de ciclo automatico.'}; Start-Process -FilePath $f.FullName"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+#Requires -Version 5.1
+# VERSION 1.0.0 - FASE 5A
+[CmdletBinding(SupportsShouldProcess=$true)]
+param([switch]$Ejecutar)
+Set-StrictMode -Version Latest
+$ErrorActionPreference='Stop'
+$Historico=Join-Path $PSScriptRoot 'historico'
+$PatronVersion='-v\d+(?:\.\d+)*\.ps1$'
+$Candidatos=@(Get-ChildItem -LiteralPath $PSScriptRoot -File | Where-Object { $_.Name -match $PatronVersion })
+$Candidatos|Select-Object Name,Length,LastWriteTime
+if($Ejecutar){
+    New-Item -ItemType Directory -Path $Historico -Force|Out-Null
+    foreach($Archivo in $Candidatos){if($PSCmdlet.ShouldProcess($Archivo.FullName,"Mover a $Historico")){Move-Item -LiteralPath $Archivo.FullName -Destination (Join-Path $Historico $Archivo.Name) -Force}}
+    Write-Host "Archivados: $($Candidatos.Count)" -ForegroundColor Green
+}

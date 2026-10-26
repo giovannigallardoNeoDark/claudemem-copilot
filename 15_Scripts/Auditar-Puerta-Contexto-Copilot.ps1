@@ -1,0 +1,7 @@
+#Requires -Version 5.1
+# VERSION 1.1.0
+Set-StrictMode -Version Latest;$ErrorActionPreference='Stop';$Puerta=Join-Path $PSScriptRoot 'Invocar-ClaudeMem-Copilot.ps1';$R=&$Puerta -Consulta 'ClaudeMem memoria integracion Copilot' -Nivel 2 -MaxCaracteres 5000 -OmitirAuditoriaPrevia;$Pruebas=@()
+$Pruebas+=[pscustomobject]@{Estado=$(if($R.resultados-gt0){'PASS'}else{'FAIL'});Prueba='Resultados';Detalle=$R.resultados};$Pruebas+=[pscustomobject]@{Estado=$(if($R.caracteresUsados-le5000){'PASS'}else{'FAIL'});Prueba='Presupuesto';Detalle="$($R.caracteresUsados)/5000"}
+$SinTraza=@($R.elementos|Where-Object{[string]::IsNullOrWhiteSpace([string]$_.id)-or[string]::IsNullOrWhiteSpace([string]$_.fuente)});$Pruebas+=[pscustomobject]@{Estado=$(if($SinTraza.Count-eq0){'PASS'}else{'FAIL'});Prueba='Trazabilidad';Detalle=$SinTraza.Count}
+$Prohibidos=@($R.elementos|Where-Object{$_.clasificacion-in@('NO_CAPTURAR','NO_INDEXAR','NO_COMPARTIR')});$Pruebas+=[pscustomobject]@{Estado=$(if($Prohibidos.Count-eq0){'PASS'}else{'FAIL'});Prueba='Exclusiones';Detalle=$Prohibidos.Count}
+$Legible=-not($R.markdown-match'(?m)^\s*\{"');$Pruebas+=[pscustomobject]@{Estado=$(if($Legible){'PASS'}else{'FAIL'});Prueba='Formato legible estricto';Detalle=$Legible};$Pruebas|Format-Table -AutoSize;$F=@($Pruebas|Where-Object{[string]$_.Estado-eq'FAIL'}).Count;Write-Host "Fallidas: $F";if($F){exit 1};Write-Host 'AUDITORIA DE PUERTA COPILOT APROBADA' -ForegroundColor Green
